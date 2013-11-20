@@ -94,20 +94,20 @@
         if (rooks > 1){
           return true;
         }
-        !!array[i] && rooks++;
+        rooks += array[i];
       }
       return false;
     },
 
     // hasAnyConflict: function(arrayOfArrays){
-    //   var rooks = 0;
-    //   for ( var i = 0 ; i < array.length ; i++){
-    //     if (rooks > 1){
-    //       return true;
+    //   var that = this;
+    //   return _.reduce(arrayOfArrays, function(seed, array){
+    //     if (seed){
+    //       return seed;
+    //     } else {
+    //       return that.hasConflict(array);
     //     }
-    //     !!array[i] && rooks++;
-    //   }
-    //   return false;
+    //   }, false);
     // },
 
     hasRowConflictAt: function(rowIndex){
