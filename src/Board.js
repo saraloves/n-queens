@@ -117,13 +117,10 @@
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function(){
       var that = this;
-      return _.reduce(this.rows(), function(seed, row, rowI){
-        if (seed){
-          return seed;
-        } else {
-          return that.hasRowConflictAt(rowI);
-        }
-      }, false);
+      var eachToBoolean = _.map(this.rows(), function (row) {
+        return that.hasConflict(row);
+      });
+      return _.any(eachToBoolean);
     },
 
 
@@ -139,13 +136,10 @@
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function(){
       var that = this;
-      return _.reduce(this.columns(), function(seed, col, colI){
-        if (seed){
-          return seed;
-        } else {
-          return that.hasColConflictAt(colI);
-        }
-      }, false);
+      var eachToBoolean = _.map(this.columns(), function (column) {
+        return that.hasConflict(column);
+      });
+      return _.any(eachToBoolean);
     },
 
 
