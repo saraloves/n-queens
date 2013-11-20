@@ -88,16 +88,30 @@
     // --------------------------------------------------------------
     // 
     // test if a specific row on this board contains a conflict
-    hasRowConflictAt: function(rowIndex, theRows){
+    hasConflict: function(array){
       var rooks = 0;
-      var thatRow = theRows || this.rows()[rowIndex];
-      for ( var i = 0 ; i < thatRow.length ; i++){
+      for ( var i = 0 ; i < array.length ; i++){
         if (rooks > 1){
           return true;
         }
-        !!thatRow[i] && rooks++;
+        !!array[i] && rooks++;
       }
       return false;
+    },
+
+    // hasAnyConflict: function(arrayOfArrays){
+    //   var rooks = 0;
+    //   for ( var i = 0 ; i < array.length ; i++){
+    //     if (rooks > 1){
+    //       return true;
+    //     }
+    //     !!array[i] && rooks++;
+    //   }
+    //   return false;
+    // },
+
+    hasRowConflictAt: function(rowIndex){
+      return this.hasConflict(this.rows()[rowIndex]);
     },
 
     // test if any rows on this board contain conflicts
@@ -119,7 +133,7 @@
     // 
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex){
-      return this.hasRowConflictAt(colIndex, this.columns()[colIndex]);
+      return this.hasConflict(this.columns()[colIndex]);
     },
 
     // test if any columns on this board contain conflicts
@@ -140,8 +154,24 @@
     // --------------------------------------------------------------
     // 
     // test if a specific major diagonal on this board contains a conflict
-    hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow){
-      return false; // fixme
+    hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndex, rowIndex){
+      rowIndex = rowIndex || 0;
+      var that = this;
+
+      // need to accept negative numbers? 
+
+      var buildDiag = function(colIndex, rowInd){
+        var result = [];
+        for ( var i = colIndex; i < that.rows().length ; i++){
+          result.push(that.rows()[rowInd][i]);
+          rowInd++;
+        }
+        return result;
+      };
+
+      var diag = buildDiag(majorDiagonalColumnIndex, rowIndex);
+      console.log(diag);
+      return this.hasConflict(diag);
     },
 
     // test if any major diagonals on this board contain conflicts
