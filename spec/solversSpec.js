@@ -1,6 +1,19 @@
 describe("solvers", function() {
   window.displayBoard = function(){};
 
+  describe('BoardTree()', function(){
+
+    it('returns all solutions', function(){
+      solutionsRoot = new BoardTree();
+      solutionsRoot.buildBoardTree(2);
+      // console.log(JSON.stringify(solutionsRoot.pathTrace(2)));
+      expect(solutionsRoot.pathTrace(2).length).to.equal(4);
+      solutionsRoot = new BoardTree();
+      solutionsRoot.buildBoardTree(3);
+      expect(solutionsRoot.pathTrace(3).length).to.equal(27);
+    });
+  });
+
   describe('findNRooksSolution()', function(){
 
     it('finds a valid solution for n of 1-8', function(){
@@ -36,7 +49,7 @@ describe("solvers", function() {
     });
 
   });
-
+  
   describe('countNQueensSolutions()', function(){
 
     it('finds the number of valid solutions for n of 0-8', function(){

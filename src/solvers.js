@@ -12,29 +12,86 @@
 
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n rooks placed such that none of them can attack each other
-window.findNRooksSolution = function(n){
-  var solution = new Board({'n':n });
-  for (var i = 0; i < n; i++) {
-    solution.togglePiece(i,i);
+var BoardTree = function(row){
+  this.children = [];
+  this.parent = null;
+  this.row = row || null;
+};
+
+BoardTree.prototype.addChild = function(row){
+  var newChild = new BoardTree(row);
+  newChild.parent = this;
+  this.children.push(newChild);
+};
+
+BoardTree.prototype.buildBoardTree = function (n, filterFunc, depth){
+  depth = depth || 0;
+  if (depth !== n){
+    for ( var i = 0 ; i < n ; i++ ){
+      // makes an n-sized row of zeros
+      var row = Array.apply(null, new Array(n)).map(Number.prototype.valueOf,0);
+      row[i] = 1;
+      this.addChild(row);
+      this.children[i].buildBoardTree(n, filterFunc, depth+1);
+    }
   }
-  console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
-  return solution.rows();
+  return this;
+};
+
+BoardTree.prototype.pathTrace = function(n, depth, matrixArray, solutionArray) {
+  depth = depth || 0;
+  matrixArray = matrixArray || [];
+  solutionArray = solutionArray || [];
+  if (this.row){
+    matrixArray.push(this.row);
+  }
+  if (depth !== n){
+    for (var i = 0 ; i < this.children.length ; i++){
+      this.children[i].pathTrace(n, depth + 1, matrixArray.slice(),solutionArray);
+    }
+    return solutionArray;
+  } else {
+    solutionArray.push(matrixArray);
+    return solutionArray;
+  }
+};
+
+window.findNRooksSolution = function(n){
+
+  var solutionsRoot = new BoardTree();
+
+  for ( var row = 0 ; row < n ; row++){
+    for ( var col = 0 ; col < n ; col++ ){
+      var itsBoard = new Board();
+      itsBoard.togglePiece(row,col);
+      if (!itsBoard.hasAnyRooksConflicts()){
+        tree.addChild(itsBoard);
+      }
+    }
+  }
+
+  // var solution = new Board({'n':n });
+  // for (var i = 0; i < n; i++) {
+  //   solution.togglePiece(i,i);
+  // }
+  // console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
+  // return solution.rows();
 };
 
 
 
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
 window.countNRooksSolutions = function(n){
-  var factorial = function (num){
-    if (num <= 1){
-      return 1;
-    } else {
-      return num * factorial(num-1);
-    }
-  };
-  var solutionCount = factorial(n);
-  console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
-  return solutionCount;
+  // var factorial = function (num){
+  //   if (num <= 1){
+  //     return 1;
+  //   } else {
+  //     return num * factorial(num-1);
+  //   }
+  // };
+  // var solutionCount = factorial(n);
+  // console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
+  // return solutionCount;
 };
 
 
