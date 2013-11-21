@@ -157,7 +157,6 @@
       };
 
       var diag = buildDiag(majorDiagonalColumnIndexAtFirstRow);
-      console.log(diag);
       return this.hasConflict(diag);
     },
 
@@ -178,7 +177,21 @@
     // 
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow){
-      return false; // fixme
+      // given col ind, build array of minor diag
+      var diag = [];
+      var row = 0;
+      for ( var i = minorDiagonalColumnIndexAtFirstRow ; i >= 0 ; i--){
+        var currRow = this.rows()[row];
+        if (currRow){
+          if (currRow[i] !== undefined){
+            diag.push(this.rows()[row][i]);
+          }
+          row++;
+        }
+      }
+      // and pass that diag into hasConflict
+      // return that result
+      return this.hasConflict(diag);
     },
 
     // test if any minor diagonals on this board contain conflicts
