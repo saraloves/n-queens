@@ -32,7 +32,7 @@
     <script>
       // This function uses a board visualizer lets you view an interactive version of any piece matrix.
       window.displayBoard = function(matrix){
-        $('body').html(
+        $('body').append(
           new BoardView({
             model: new Board(matrix)
           }).render()
@@ -45,6 +45,18 @@
           [0, 0, 0, 1],
           [1, 0, 0, 0],
           [0, 0, 1, 0]
+        ]);
+        displayBoard([
+          [0, 0, 0, 0],
+          [0, 0, 0, 0],
+          [0, 0, 0, 0],
+          [0, 0, 0, 0]
+        ]);
+        displayBoard([
+          [0, 0, 0, 0],
+          [0, 0, 0, 0],
+          [0, 0, 0, 0],
+          [0, 0, 0, 0]
         ]);
 
         var n = 4;
