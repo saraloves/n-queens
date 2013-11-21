@@ -99,16 +99,13 @@
       return false;
     },
 
-    // hasAnyConflict: function(arrayOfArrays){
-    //   var that = this;
-    //   return _.reduce(arrayOfArrays, function(seed, array){
-    //     if (seed){
-    //       return seed;
-    //     } else {
-    //       return that.hasConflict(array);
-    //     }
-    //   }, false);
-    // },
+    hasAnyConflict: function(arrayOfArrays){
+      var that = this;
+      var eachToBoolean = _.map(arrayOfArrays, function (array) {
+        return that.hasConflict(array);
+      });
+      return _.any(eachToBoolean);
+    },
 
     hasRowConflictAt: function(rowIndex){
       return this.hasConflict(this.rows()[rowIndex]);
@@ -116,11 +113,7 @@
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function(){
-      var that = this;
-      var eachToBoolean = _.map(this.rows(), function (row) {
-        return that.hasConflict(row);
-      });
-      return _.any(eachToBoolean);
+      return this.hasAnyConflict(this.rows());
     },
 
 
@@ -135,23 +128,17 @@
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function(){
-      var that = this;
-      var eachToBoolean = _.map(this.columns(), function (column) {
-        return that.hasConflict(column);
-      });
-      return _.any(eachToBoolean);
+      return this.hasAnyConflict(this.columns());
     },
 
 
 
     // Major Diagonals - go from top-left to bottom-right
     // --------------------------------------------------------------
-    // 
+    //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow){
       var that = this;
-
-      // need to accept negative numbers?
 
       var buildDiag = function(colIndex){
         var result = [];
@@ -170,12 +157,18 @@
       };
 
       var diag = buildDiag(majorDiagonalColumnIndexAtFirstRow);
+      console.log(diag);
       return this.hasConflict(diag);
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function(){
-      return false; // fixme
+      var n = this.rows().length-1;
+      var diagConflicts = [];
+      for (var i = -n ; i <= n ; i++){
+         diagConflicts.push(this.hasMajorDiagonalConflictAt(i));
+      }
+      return _.any(diagConflicts);
     },
 
 
