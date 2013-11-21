@@ -91,10 +91,10 @@
     hasConflict: function(array){
       var rooks = 0;
       for ( var i = 0 ; i < array.length ; i++){
+        rooks += array[i];
         if (rooks > 1){
           return true;
         }
-        rooks += array[i];
       }
       return false;
     },
@@ -148,23 +148,28 @@
     // --------------------------------------------------------------
     // 
     // test if a specific major diagonal on this board contains a conflict
-    hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndex, rowIndex){
-      rowIndex = rowIndex || 0;
+    hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow){
       var that = this;
 
-      // need to accept negative numbers? 
+      // need to accept negative numbers?
 
-      var buildDiag = function(colIndex, rowInd){
+      var buildDiag = function(colIndex){
         var result = [];
-        for ( var i = colIndex; i < that.rows().length ; i++){
-          result.push(that.rows()[rowInd][i]);
+        var rowInd = 0;
+        for ( var col = colIndex; col < that.rows().length ; col++){
+          var currRow = that.rows()[rowInd];
+          if (currRow){
+            var val = currRow[col];
+            if (val !== undefined){
+              result.push(val);
+            }
+          }
           rowInd++;
         }
         return result;
       };
 
-      var diag = buildDiag(majorDiagonalColumnIndex, rowIndex);
-      console.log(diag);
+      var diag = buildDiag(majorDiagonalColumnIndexAtFirstRow);
       return this.hasConflict(diag);
     },
 
