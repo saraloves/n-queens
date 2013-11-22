@@ -27,7 +27,7 @@
     columns: function(){
       var allColumns = [];
       for (var i = 0 ; i < this.rows().length ; i++){
-        allColumns.push(_.map(this.rows(), function(row){
+        allColumns.push(this.rows().map(function(row){
           return row[i];
         }));
       }
@@ -86,7 +86,7 @@
 
     // ROWS - run from left to right
     // --------------------------------------------------------------
-    // 
+    //
     // test if a specific row on this board contains a conflict
     hasConflict: function(array){
       var rooks = 0;
@@ -100,11 +100,10 @@
     },
 
     hasAnyConflict: function(arrayOfArrays){
-      var that = this;
-      var eachToBoolean = _.map(arrayOfArrays, function (array) {
-        return that.hasConflict(array);
-      });
-      return _.any(eachToBoolean);
+      for ( var i = 0 ; i < arrayOfArrays.length ; i++){
+        if (this.hasConflict(arrayOfArrays[i])) return true;
+      }
+      return false;
     },
 
     hasRowConflictAt: function(rowIndex){

@@ -1,18 +1,18 @@
 describe("solvers", function() {
   window.displayBoard = function(){};
 
-  describe('BoardTree()', function(){
+  // describe('BoardTree()', function(){
 
-    it('returns all solutions', function(){
-      solutionsRoot = new BoardTree();
-      solutionsRoot.buildBoardTree(2);
-      // console.log(JSON.stringify(solutionsRoot.pathTrace(2)));
-      expect(solutionsRoot.pathTrace(2).length).to.equal(4);
-      solutionsRoot = new BoardTree();
-      solutionsRoot.buildBoardTree(3);
-      expect(solutionsRoot.pathTrace(3).length).to.equal(27);
-    });
-  });
+  //   it('returns all solutions', function(){
+  //     solutionsRoot = new BoardTree();
+  //     solutionsRoot.buildBoardTree(2);
+  //     // console.log(JSON.stringify(solutionsRoot.pathTrace(2)));
+  //     expect(solutionsRoot.pathTrace(2).length).to.equal(4);
+  //     solutionsRoot = new BoardTree();
+  //     solutionsRoot.buildBoardTree(3);
+  //     expect(solutionsRoot.pathTrace(3).length).to.equal(27);
+  //   });
+  // });
 
   describe('findNRooksSolution()', function(){
 
